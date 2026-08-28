@@ -12,28 +12,17 @@
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
 <link rel="icon" href="./favicon.png" type="image/png">
 
-<!-- ===== 3D phone styling (new — does not touch style.css) ===== -->
+<!-- ===== Creative 3D phone motion (new — does not touch style.css) ===== -->
 <style>
-  .phone3d-canvas{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    display:block;
-    touch-action:none;
+  /* Gives the existing CSS phone a real 3D stage: the wrapper defines
+     the perspective, the phone itself keeps its 3D children (edges,
+     buttons, notch, camera) positioned in true 3D space. */
+  .phone-flight{ perspective: 1400px; }
+  #phone3d.phone-3d{
+    transform-style: preserve-3d;
+    animation: none !important; /* let phone-3d-effect.js fully drive it */
+    will-change: transform;
   }
-  .phone3d-loading{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    pointer-events:none;
-    transition:opacity .4s ease;
-  }
-  .phone3d-loading span{
-    width:34px; height:34px; border-radius:50%;
-    border:3px solid rgba(255,255,255,.15);
-    border-top-color:#7c5cff;
-    animation:phone3dspin 1s linear infinite;
-  }
-  .phone3d-loading.hidden{ opacity:0; pointer-events:none; }
-  @keyframes phone3dspin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -100,10 +89,17 @@
 </div>
 </div>
 
-<!-- ===== REAL 3D iPHONE (three.js + glb) — replaces the old CSS phone mockup ===== -->
-<div class="phone-flight" id="phoneFlight">
-<canvas id="phone3dCanvas" class="phone3d-canvas"></canvas>
-<div class="phone3d-loading" id="phone3dLoading"><span></span></div>
+<div class="phone-flight">
+  <div class="phone-frame phone-3d" id="phone3d">
+    <span class="phone-edge phone-edge-left"></span><span class="phone-edge phone-edge-right"></span>
+    <span class="phone-button phone-button-one"></span><span class="phone-button phone-button-two"></span><span class="phone-button phone-button-three"></span>
+    <span class="phone-camera"><i></i><i></i><i></i></span><div class="phone-notch"></div>
+    <div class="phone-screen" id="phoneScreen">
+      <div class="app-slide active"><div class="app-topbar"><span></span><span></span><span></span></div><div class="app-card"><i class="fa-solid fa-computer-mouse"></i><p>celmouse</p></div><div class="app-row"><span class="chip">Bluetooth</span><span class="chip">Connected</span></div><div class="app-bar" style="--w:72%"></div><div class="app-bar" style="--w:45%"></div></div>
+      <div class="app-slide"><div class="app-topbar"><span></span><span></span><span></span></div><div class="app-card"><i class="fa-solid fa-keyboard"></i><p>CleverType</p></div><div class="app-row"><span class="chip">AI Suggest</span><span class="chip">Fast</span></div><div class="app-bar" style="--w:85%"></div><div class="app-bar" style="--w:60%"></div></div>
+      <div class="app-slide"><div class="app-topbar"><span></span><span></span><span></span></div><div class="app-card"><i class="fa-solid fa-code"></i><p>sefen.dev</p></div><div class="app-row"><span class="chip">Live</span><span class="chip">v2.0</span></div><div class="app-bar" style="--w:93%"></div><div class="app-bar" style="--w:78%"></div></div>
+    </div><div class="phone-dots" id="phoneDots"></div>
+  </div>
 </div>
 
 <div class="glow-blob"></div>
@@ -347,9 +343,7 @@
 </style>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
 
-<!-- ===== 3D phone engine (new) ===== -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/examples/js/loaders/GLTFLoader.js"></script>
-<script src="./phone3d.js"></script>
+<!-- ===== Creative 3D phone motion engine (new) ===== -->
+<script src="./phone-3d-effect.js"></script>
 </body>
 </html>
