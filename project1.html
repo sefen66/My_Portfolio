@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>CelMouse</title>
+    <style>
+        /* استيراد الخطوط */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+    
+/* تصميم الشريط العلوي */
+/* تصميم الشريط العلوي */
+header.navbar {
+    position: fixed;
+    top: 10px;  /* تحديد المسافة من الأعلى */
+    left: 10px; /* تحديد المسافة من اليسار */
+    z-index: 10;
+}
+
+/* تصميم زر الرجوع */
+header.navbar .back-button {
+    color: #fff;
+    font-size: 18px;  /* حجم الأيقونة */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;  /* عرض الزر */
+    height: 35px; /* ارتفاع الزر */
+    background-color: #444;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+header.navbar .back-button:hover {
+    background-color: #ff6600; /* تغيير اللون عند المرور */
+    transform: scale(1.1);
+}
+
+/* إزالة النص لضبطه كزر أيقونة فقط */
+header.navbar .back-button i {
+    margin: 0;
+}
+
+/* تصميم متجاوب للأجهزة الصغيرة */
+@media only screen and (max-width: 768px) {
+    header.navbar .back-button {
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+
+    
+        .section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+    
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 700;
+        }
+    
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+    
+        /* تأثير الصورة الرئيسية */
+        .main-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 200px;
+            margin-top: 1rem;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        .main-image:hover {
+            transform: scale(1.05);
+        }
+    
+        /* قسم الصور التفاعلية */
+        .gallery {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .gallery img {
+            width: 500px;  /* تصغير الصور */
+            height: 500px;
+            object-fit: contain;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out, filter 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);  /* تكبير الصورة عند المرور عليها */
+            filter: brightness(0.8);
+        }
+    
+        .gallery .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            font-size: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+    
+        .gallery .left-arrow {
+            left: 0;
+        }
+    
+        .gallery .right-arrow {
+            right: 0;
+        }
+    
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            font-size: 14px;
+            margin-top: 2rem;
+        }
+    
+        footer p {
+            margin: 0;
+        }
+    
+        /* الاستجابة (Responsive) */
+        @media only screen and (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+    
+            p {
+                font-size: 16px;
+            }
+    
+            .section {
+                padding: 1.5rem;
+            }
+    
+            /* صورة الرئيسة */
+            .main-image {
+                width: 90%;
+                height: 250px;  /* تصغير الارتفاع على الهواتف */
+            }
+    
+            /* الصور التفاعلية */
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .gallery img {
+                width: 90%; /* زيادة عرض الصور في الهواتف */
+                height: auto;
+            }
+    
+            .gallery .arrow {
+                font-size: 20px;
+                padding: 8px;
+            }
+    
+            /* ضبط المسافات للمودال */
+            .modal-content {
+                max-width: 95%;
+                max-height: 95%;
+            }
+    
+            .modal-content img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    
+        /* تأثير المودال */
+/* تأثير المودال */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* إعدادات المحتوى داخل المودال */
+.modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* تأكد أن المحتوى يمكن أن يمتد إلى عرض كامل الشاشة */
+    height: 100%; /* تأكد أن المحتوى يمكن أن يمتد إلى ارتفاع كامل الشاشة */
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    overflow: hidden; /* لضمان عدم خروج الصورة من داخل المودال */
+    border-radius: 8px;
+}
+
+/* إعدادات الصورة داخل المودال */
+.modal-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* التأكد من أن الصورة تظهر بالكامل */
+}
+
+    
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="project-details.css">
+    
+</head>
+<body class="project-page">
+    <header class="navbar">
+        <a href="index(12).html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </header>
+    <main class="project-modern">
+        <a href="index(12).html" class="project-back"><i class="fas fa-arrow-left"></i> Back to portfolio</a>
+        <section class="project-hero">
+            <div class="project-heading"><span class="project-kicker">Mobile utility · 2026</span><h1>CelMouse</h1><p>Turn your phone into a wireless mouse and keyboard for your computer. Fast pairing, precise control, and no extra hardware.</p><div class="project-tech"><span>Android</span><span>Bluetooth</span><span>Wi-Fi</span><span>Mobile UX</span></div></div>
+            <div class="project-logo-wrap"><img src="projects/project1.png" alt="CelMouse logo" class="project-logo-large"></div>
+        </section>
+        <section class="project-details-grid"><div><span class="project-kicker">The idea</span><h2>Control your desktop from your pocket.</h2></div><p>CelMouse makes presentations, media control, and everyday desktop navigation feel natural. The experience stays focused on quick connection and responsive gestures.</p></section>
+        <section class="project-gallery"><div class="project-gallery-heading"><span class="project-kicker">Product screens</span><h2>Built for quick, confident control.</h2></div><div class="project-gallery-grid"><img src="prezenprojects/project1/unnamed.png" alt="CelMouse settings screen"><img src="prezenprojects/project1/unnamed1.png" alt="CelMouse controls screen"><img src="prezenprojects/project1/unnamed3.png" alt="CelMouse configuration screen"><img src="prezenprojects/project1/unnamed4.png" alt="CelMouse interaction screen"></div></section>
+    </main>
+    <div class="section legacy-project-section">
+        <h1>CelMouse</h1>
+        
+        <!-- الصورة الرئيسية تظهر بعد اسم المشروع مباشرة -->
+        <img src="projects/project1.png" alt="CelMouse project logo" class="main-image">
+        
+        <p> يحول هاتفك الذكي إلى جهاز تحكم ذكي لجهاز الكمبيوتر الخاص بك! يتيح لك التحكم في الماوس ولوحة المفاتيح بجهاز الكمبيوتر عن طريق إمالة هاتفك. لا كابلات ولا متاعب - فقط قم بتحريك هاتفك وشاهد السحر يحدث على شاشة جهاز الكمبيوتر الخاص بك!
+            <br><br>الميزات الرئيسية:
+            <ul>
+                <li>تحكم دقيق بالماوس: تحرك المؤشر بسهولة باستخدام حساسيات قابلة للتعديل.</li>
+                <li>محاكاة لوحة المفاتيح: اكتب مباشرة من هاتفك.</li>
+                <li>تخصيص الإعدادات: ضبط الحساسية وعناصر التحكم.</li>
+                <li>تحكم في العروض التقديمية والوسائط: مثالي للطلاب والمحترفين.</li>
+                <li>تواصل عبر Wi-Fi أو Bluetooth: اتصال فوري.</li>
+            </ul>
+
+            <br>الفوائد:
+            <ul>
+                <li>زيادة الإنتاجية والراحة.</li>
+                <li>مثالي للطلاب، اللاعبين، محترفي المكاتب، وعشاق الوسائط.</li>
+            </ul>
+
+            <br>حالات الاستخدام:
+            <ul>
+                <li>طلاب ومعلمون: التحكم في عروض الشرائح.</li>
+                <li>لاعبون: التنقل بين القوائم.</li>
+                <li>محترفو المكاتب: تقديم العروض والمشاركة في الاجتماعات.</li>
+                <li>عشاق الأفلام: التحكم في مشغلات الفيديو.</li>
+            </ul>
+
+            <br>كيفية الاستخدام:
+            <ul>
+                <li>تحميل التطبيق على هاتفك.</li>
+                <li>تثبيت البرنامج على جهاز الكمبيوتر.</li>
+                <li>الاتصال عبر Wi-Fi أو Bluetooth.</li>
+            </ul>
+
+            <br>التوافق:
+            <ul>
+                <li>متوافق مع أنظمة التشغيل الرئيسية (Windows، macOS، Linux).</li>
+            </ul>
+        </p>
+        
+        <!-- معرض الصور التفاعلي -->
+        <div class="gallery">
+            <div class="arrow left-arrow">&lt;</div>
+            <img src="prezenprojects/project1/unnamed.png" alt="CelMouse screen" class="gallery-image">
+            <img src="prezenprojects/project1/unnamed1.png" alt="CelMouse screen" class="gallery-image">
+            <img src="prezenprojects/project1/unnamed3.png" alt="CelMouse screen" class="gallery-image">
+            <img src="prezenprojects/project1/unnamed4.png" alt="CelMouse screen" class="gallery-image">
+            <div class="arrow right-arrow">&gt;</div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sefen Zkarya. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- مودال لتكبير الصورة عند النقر عليها -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img src="" alt="صورة مكبرة" id="modalImage">
+        </div>
+    </div>
+
+    <script>
+        // عرض المودال عند الضغط على صورة
+        const images = document.querySelectorAll('.gallery-image');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close');
+    
+        images.forEach(image => {
+            image.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                modalImage.src = this.src;
+            });
+        });
+    
+        // إغلاق المودال
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    
+        // إغلاق المودال عند النقر في أي مكان خارج الصورة
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    
+        // إضافة تأثير حركة للصور باستخدام الأسهم
+        const leftArrow = document.querySelector('.left-arrow');
+        const rightArrow = document.querySelector('.right-arrow');
+        let currentIndex = 0;
+    
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+            });
+        }
+    
+        leftArrow.addEventListener('click', () => {
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            showImage(currentIndex);
+        });
+    
+        rightArrow.addEventListener('click', () => {
+            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+            showImage(currentIndex);
+        });
+    
+        // إظهار الصورة الأولى عند تحميل الصفحة
+        showImage(currentIndex);
+    
+        // إضافة تأثير انتقال عند عرض الصور
+        images.forEach(image => {
+            image.style.transition = 'transform 0.3s ease-in-out';
+        });
+    
+        // وظيفة التمرير التلقائي للصور
+        function autoSlide() {
+            setInterval(() => {
+                currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+                showImage(currentIndex);
+            }, 3000); // تغيير الصورة كل 3 ثوانٍ (يمكنك تغيير المدة حسب رغبتك)
+        }
+    
+        // تفعيل التمرير التلقائي عند تحميل الصفحة
+        autoSlide();
+    
+        // إضافة إمكانية السحب (Swipe) للانتقال بين الصور
+        let startX = 0;
+        let endX = 0;
+    
+        // بدء السحب
+        images.forEach(image => {
+            image.addEventListener('touchstart', (event) => {
+                startX = event.touches[0].clientX; // حفظ موقع السحب عند بداية اللمس
+            });
+        });
+    
+        // أثناء السحب
+        images.forEach(image => {
+            image.addEventListener('touchmove', (event) => {
+                endX = event.touches[0].clientX; // تحديث الموقع أثناء السحب
+            });
+        });
+    
+        // نهاية السحب
+        images.forEach(image => {
+            image.addEventListener('touchend', () => {
+                if (startX - endX > 50) {
+                    // السحب لليسار
+                    currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+                    showImage(currentIndex);
+                } else if (endX - startX > 50) {
+                    // السحب لليمين
+                    currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+                    showImage(currentIndex);
+                }
+            });
+        });
+    </script>
+    
+    
+    
+</body>
+</html>

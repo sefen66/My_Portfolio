@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>CelMouse</title>
+    <style>
+        /* استيراد الخطوط */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+header.navbar {
+    position: fixed;
+    top: 10px;  /* تحديد المسافة من الأعلى */
+    left: 10px; /* تحديد المسافة من اليسار */
+    z-index: 10;
+}
+
+/* تصميم زر الرجوع */
+header.navbar .back-button {
+    color: #fff;
+    font-size: 18px;  /* حجم الأيقونة */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;  /* عرض الزر */
+    height: 35px; /* ارتفاع الزر */
+    background-color: #444;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+header.navbar .back-button:hover {
+    background-color: #ff6600; /* تغيير اللون عند المرور */
+    transform: scale(1.1);
+}
+
+/* إزالة النص لضبطه كزر أيقونة فقط */
+header.navbar .back-button i {
+    margin: 0;
+}
+
+/* تصميم متجاوب للأجهزة الصغيرة */
+@media only screen and (max-width: 768px) {
+    header.navbar .back-button {
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
+    }
+}
+
+
+        .section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* تأثير الصورة الرئيسية */
+        .main-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 200px;
+            margin-top: 1rem;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .main-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* قسم الصور التفاعلية */
+        .gallery {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .gallery img {
+            width: 500px;  /* تصغير الصور */
+            height: 500px;
+            object-fit: contain;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out, filter 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);  /* تكبير الصورة عند المرور عليها */
+            filter: brightness(0.8);
+        }
+
+        .gallery .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            font-size: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .gallery .left-arrow {
+            left: 0;
+        }
+
+        .gallery .right-arrow {
+            right: 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            font-size: 14px;
+            margin-top: 2rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* الاستجابة (Responsive) */
+        @media only screen and (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .gallery img {
+                width: 90%;
+                height: auto;
+            }
+
+            .main-image {
+                height: 300px;
+            }
+        }
+
+        /* تأثير المودال */
+/* تأثير المودال */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* إعدادات المحتوى داخل المودال */
+.modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* تأكد أن المحتوى يمكن أن يمتد إلى عرض كامل الشاشة */
+    height: 100%; /* تأكد أن المحتوى يمكن أن يمتد إلى ارتفاع كامل الشاشة */
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    overflow: hidden; /* لضمان عدم خروج الصورة من داخل المودال */
+    border-radius: 8px;
+}
+
+/* إعدادات الصورة داخل المودال */
+.modal-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* التأكد من أن الصورة تظهر بالكامل */
+}
+
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="project-details.css">
+</head>
+<body class="project-page">
+    <header class="navbar">
+        <a href="index(12).html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </header>
+    <main class="project-modern">
+        <a href="index(12).html" class="project-back"><i class="fas fa-arrow-left"></i> Back to portfolio</a>
+        <section class="project-hero"><div class="project-heading"><span class="project-kicker">AI keyboard · 2026</span><h1>CleverType</h1><p>An intelligent keyboard that helps you write faster with useful suggestions, corrections, and AI-powered text generation.</p><div class="project-tech"><span>AI tools</span><span>Keyboard UX</span><span>Android</span><span>Product design</span></div></div><div class="project-logo-wrap project-logo-wrap-purple"><img src="projects/project2.png" alt="CleverType logo" class="project-logo-large"></div></section>
+        <section class="project-details-grid"><div><span class="project-kicker">The idea</span><h2>More than a keyboard. A faster way to think.</h2></div><p>CleverType brings writing assistance into the keyboard people already use, helping them create captions, messages, and everyday text without breaking their flow.</p></section>
+        <section class="project-gallery"><div class="project-gallery-heading"><span class="project-kicker">Product screens</span><h2>Helpful tools, right where you write.</h2></div><div class="project-gallery-grid"><img src="prezenprojects/project2/unnamed.jpg" alt="CleverType keyboard screen"><img src="prezenprojects/project2/unnamed2.jpg" alt="CleverType AI screen"><img src="prezenprojects/project2/unnamed3.jpg" alt="CleverType writing screen"><img src="prezenprojects/project2/unnamed4.jpg" alt="CleverType app screen"><img src="prezenprojects/project2/unnamed5.jpg" alt="CleverType feature screen"><img src="prezenprojects/project2/unnamed6.jpg" alt="CleverType interface screen"></div></section>
+    </main>
+    <div class="section legacy-project-section">
+        <h1>CleverType</h1>
+        <img src="projects/project2.png" alt="CleverType project logo" class="main-image">
+        <p>هو أداة مبتكرة تساعدك على تحسين سرعة ودقة الكتابة باستخدام الكمبيوتر، من خلال تمارين تفاعلية وألعاب ممتعة. سواء كنت مبتدئًا أو محترفًا، سيساعدك التطبيق في تعزيز مهارات الكتابة لديك بطريقة فعّالة وبسيطة.
+            المميزات الرئيسية:
+            
+            <ul>
+                <li>تدريب مخصص: تمارين مخصصة لتحسين سرعة الكتابة ودقتها حسب مستوى المستخدم.</li>
+                <li>وضع الألعاب: تعلم بطريقة ممتعة مع ألعاب تفاعلية تزيد من سرعتك ودقتك في الكتابة.</li>
+                <li>تقييم الأداء: يوفر التطبيق إحصائيات دقيقة حول سرعة الكتابة وعدد الأخطاء لتحليل وتحسين أدائك.</li>
+                <li>دروس متنوعة: نصوص متنوعة لتدريب الكتابة تشمل مواضيع وأساليب مختلفة، مما يساعدك على الكتابة في مختلف السياقات.</li>
+                <li>واجهة سهلة الاستخدام: تصميم بسيط وسهل التنقل بين التمارين المختلفة، مما يسهل استخدام التطبيق.</li>
+                <li>دعم متعدد اللغات: يدعم العديد من اللغات لتلبية احتياجات المستخدمين من مختلف أنحاء العالم.</li>
+                <li>تحسين الدقة: يساعد على تقليل الأخطاء الشائعة وزيادة دقة الكتابة مع مرور الوقت.</li>
+            </ul>
+            
+            أنظمة التشغيل المتوافقة:
+            <ul>
+                <li>Windows</li>
+                <li>macOS</li>
+                <li>Linux</li>
+                <li>Android (في بعض النسخ)</li>
+            </ul>
+
+            الفوائد:
+            <ul>
+                <li>تحسين مهارات الكتابة: يساعدك في تحسين سرعتك ودقتك في الكتابة بشكل تدريجي.</li>
+                <li>تعلم تفاعلي: تجربة ممتعة ومثيرة مع التمارين والألعاب التي تحفزك على التعلم بشكل مستمر.</li>
+                <li>زيادة الإنتاجية: مع تحسين سرعة الكتابة، ستتمكن من إنجاز المهام الكتابية بشكل أسرع وأكثر كفاءة.</li>
+            </ul>
+        </p>
+        
+    </div>
+        
+        <!-- معرض الصور التفاعلي -->
+        <div class="gallery">
+            <div class="arrow left-arrow">&lt;</div>
+            <img src="prezenprojects/project2/unnamed.jpg" alt="CleverType screen" class="gallery-image">
+            <img src="prezenprojects/project2/unnamed2.jpg" alt="CleverType screen" class="gallery-image">
+            <img src="prezenprojects/project2/unnamed3.jpg" alt="CleverType screen" class="gallery-image">
+            <img src="prezenprojects/project2/unnamed4.jpg" alt="CleverType screen" class="gallery-image">
+            <img src="prezenprojects/project2/unnamed5.jpg" alt="CleverType screen" class="gallery-image">
+            <img src="prezenprojects/project2/unnamed6.jpg" alt="CleverType screen" class="gallery-image">
+            <div class="arrow right-arrow">&gt;</div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sefen Zkarya. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- مودال لتكبير الصورة عند النقر عليها -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img src="" alt="صورة مكبرة" id="modalImage">
+        </div>
+    </div>
+
+    <script>
+        // عرض المودال عند الضغط على صورة
+        const images = document.querySelectorAll('.gallery-image');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close');
+    
+        images.forEach(image => {
+            image.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                modalImage.src = this.src;
+            });
+        });
+    
+        // إغلاق المودال
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    
+        // إغلاق المودال عند النقر في أي مكان خارج الصورة
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    
+        // إضافة تأثير حركة للصور باستخدام الأسهم
+        const leftArrow = document.querySelector('.left-arrow');
+        const rightArrow = document.querySelector('.right-arrow');
+        let currentIndex = 0;
+    
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+            });
+        }
+    
+        leftArrow.addEventListener('click', () => {
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            showImage(currentIndex);
+        });
+    
+        rightArrow.addEventListener('click', () => {
+            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+            showImage(currentIndex);
+        });
+    
+        // إظهار الصورة الأولى عند تحميل الصفحة
+        showImage(currentIndex);
+    
+        // إضافة تأثير انتقال عند عرض الصور
+        images.forEach(image => {
+            image.style.transition = 'transform 0.3s ease-in-out';
+        });
+    
+        // وظيفة التمرير التلقائي للصور
+        function autoSlide() {
+            setInterval(() => {
+                currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+                showImage(currentIndex);
+            }, 3000); // تغيير الصورة كل 3 ثوانٍ (يمكنك تغيير المدة حسب رغبتك)
+        }
+    
+        // تفعيل التمرير التلقائي عند تحميل الصفحة
+        autoSlide();
+    
+        // إضافة إمكانية السحب (Swipe) للانتقال بين الصور
+        let startX = 0;
+        let endX = 0;
+    
+        // بدء السحب
+        images.forEach(image => {
+            image.addEventListener('touchstart', (event) => {
+                startX = event.touches[0].clientX; // حفظ موقع السحب عند بداية اللمس
+            });
+        });
+    
+        // أثناء السحب
+        images.forEach(image => {
+            image.addEventListener('touchmove', (event) => {
+                endX = event.touches[0].clientX; // تحديث الموقع أثناء السحب
+            });
+        });
+    
+        // نهاية السحب
+        images.forEach(image => {
+            image.addEventListener('touchend', () => {
+                if (startX - endX > 50) {
+                    // السحب لليسار
+                    currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+                    showImage(currentIndex);
+                } else if (endX - startX > 50) {
+                    // السحب لليمين
+                    currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+                    showImage(currentIndex);
+                }
+            });
+        });
+    </script>
+    
+    
+    
+</body>
+</html>
