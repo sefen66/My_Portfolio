@@ -237,3 +237,8 @@ function googleTranslateElementInit(){
     autoDisplay: false
   }, 'google_translate_element');
 }
+// script.js is loaded with type="module", so top-level functions are
+// module-scoped and never become window.* — Google's translate script
+// calls window.googleTranslateElementInit directly, so it must be
+// attached here explicitly or the callback silently never fires.
+window.googleTranslateElementInit = googleTranslateElementInit;
