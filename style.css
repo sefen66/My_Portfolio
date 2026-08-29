@@ -224,9 +224,11 @@ body { top: 0 !important; }
 @media (min-width: 1050px) {.topbar { padding-top: 16px; padding-bottom: 16px; }.navbar { gap: 30px; }.hero-sub { font-size: 1.05rem; }.hero-visual { gap: 18px; }.portrait-card { width: 270px; height: 420px; }.phone-frame { width: 210px; height: 430px; }.services-grid { grid-template-columns: repeat(4, 1fr); }.service-card { padding: 28px 22px; }}
 @media (max-width: 850px) { .hero-visual { flex-direction: column; }.phone-flight { width: min(100%, 390px); flex: 0 0 auto; } }
 @media (max-width: 380px) {.hero-visual { gap: 7px; }.portrait-card { width: 54vw; height: 290px; }.phone-frame { width: 40vw; height: 315px; }.phone-flight { height: 360px; }.translate-toggle { width: 40px; padding: 0; }.translate-toggle span { display: none; }.hero-actions .btn { width: 100%; }.meter-list li { grid-template-columns: 86px 1fr 35px; }}
-/* Short/landscape phones: the hero was overflowing viewport height
-   on landscape orientation, hiding the scroll cue — trim it down. */
-@media (max-height: 500px) and (orientation: landscape) {
+/* Short/landscape PHONES specifically: the hero was overflowing
+   viewport height there, hiding the scroll cue — trim it down.
+   The extra (pointer: coarse) check keeps this from ever firing on
+   a desktop browser window that's simply not maximized or is zoomed in. */
+@media (max-height: 500px) and (orientation: landscape) and (pointer: coarse) {
   .hero { min-height: auto; padding-top: 90px; padding-bottom: 40px; }
   .hero-grid { gap: 24px; }
   .hero-visual { min-height: 220px; }
