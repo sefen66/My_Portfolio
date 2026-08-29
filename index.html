@@ -24,6 +24,90 @@
     will-change: transform;
   }
 </style>
+
+<!-- ===== Creative effects: skill bars, portrait, project cards (new) ===== -->
+<style>
+  /* --- Skills: animated fill + shine sweep --- */
+  .meter{ position:relative; overflow:hidden; }
+  .meter::before, .meter::after{ content:none !important; }
+  .meter-fill{
+    position:absolute; inset:0 auto 0 0;
+    width:0%; border-radius:inherit;
+    background:linear-gradient(90deg,#7c5cff,#00e5c7);
+    transition:width 1.3s cubic-bezier(.16,1,.3,1);
+  }
+  .meter-fill::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.6) 50%,transparent 70%);
+    background-size:220% 100%;
+    background-position:220% 0;
+    opacity:0;
+  }
+  .meter-fill.is-filling::after{
+    opacity:1;
+    animation:meterShine 1.3s ease forwards;
+  }
+  @keyframes meterShine{
+    from{ background-position:220% 0; }
+    to{ background-position:-40% 0; }
+  }
+  .meter-fill.is-done{ box-shadow:0 0 12px 1px rgba(124,92,255,.55); }
+
+  /* --- Portrait: 3D tilt + glare that follows the cursor --- */
+  .portrait-card{ will-change:transform; }
+  .portrait-glare{
+    position:absolute; inset:0; border-radius:inherit;
+    background:radial-gradient(circle at var(--px,50%) var(--py,50%), rgba(255,255,255,.45), transparent 55%);
+    mix-blend-mode:overlay;
+    opacity:0;
+    transition:opacity .3s ease;
+    pointer-events:none;
+  }
+  .portrait-card.is-hovering .portrait-glare{ opacity:1; }
+  @keyframes portraitFloat{
+    0%,100%{ transform: perspective(900px) translateY(0px) rotateX(0deg) rotateY(0deg); }
+    50%{ transform: perspective(900px) translateY(-8px) rotateX(1.2deg) rotateY(-1.2deg); }
+  }
+  .portrait-card.idle-float{ animation: portraitFloat 5s ease-in-out infinite; }
+
+  /* --- Project cards: 3D tilt, glow border, image zoom, cursor shine --- */
+  .project-card{
+    position:relative;
+    will-change:transform;
+    transition:transform .25s ease-out, box-shadow .25s ease;
+  }
+  .project-card::before{
+    content:'';
+    position:absolute; inset:-2px; border-radius:inherit; padding:2px;
+    background:linear-gradient(135deg,#7c5cff,#00e5c7,#7c5cff);
+    background-size:220% 220%;
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    opacity:0;
+    transition:opacity .3s ease;
+    pointer-events:none;
+    z-index:2;
+  }
+  .project-card.is-hovering::before{
+    opacity:1;
+    animation:borderFlow 3s linear infinite;
+  }
+  @keyframes borderFlow{ to{ background-position:220% 0%; } }
+  .project-card .project-media{ overflow:hidden; }
+  .project-card .project-image{ transition:transform .5s ease; }
+  .project-card.is-hovering .project-image{ transform:scale(1.08); }
+  .project-shine{
+    position:absolute; inset:0; border-radius:inherit;
+    background:radial-gradient(circle at var(--px,50%) var(--py,50%), rgba(255,255,255,.22), transparent 55%);
+    opacity:0;
+    transition:opacity .3s ease;
+    pointer-events:none;
+    z-index:1;
+  }
+  .project-card.is-hovering .project-shine{ opacity:1; }
+</style>
 </head>
 <body>
 <div class="progress-rail"><div class="progress-fill" id="scrollFill"></div></div>
@@ -345,5 +429,8 @@
 
 <!-- ===== Creative 3D phone motion engine (new) ===== -->
 <script src="./phone-3d-effect.js"></script>
+
+<!-- ===== Creative effects: skill bars, portrait, project cards (new) ===== -->
+<script src="./creative-effects.js"></script>
 </body>
 </html>
