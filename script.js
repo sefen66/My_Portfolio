@@ -101,33 +101,51 @@ document.addEventListener('DOMContentLoaded', () => {
     root.style.setProperty('--pointer-y', `${event.clientY}px`);
   }, { passive: true });
 
-  /* ---------- CSS phone motion ---------- */
+  /* ---------- CSS phone motion (now with continuous idle motion,
+     stronger scroll spin, so it never sits still) ---------- */
   const phone3d = document.getElementById('phone3d');
   const heroVisual = document.querySelector('.hero-visual');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let phoneFramePending = false;
+  let lastPointerX = -1, lastPointerY = -1;
   function clamp(value, min, max){ return Math.min(max, Math.max(min, value)); }
   function updatePhone3D(pointerX = -1, pointerY = -1){
     if (!phone3d || !heroVisual || reduceMotion.matches) return;
+    lastPointerX = pointerX; lastPointerY = pointerY;
     const rect = heroVisual.getBoundingClientRect();
     const offset = clamp((rect.top + rect.height / 2 - window.innerHeight / 2) / (window.innerHeight * .72), -1, 1);
     const inside = pointerX >= rect.left && pointerX <= rect.right && pointerY >= rect.top && pointerY <= rect.bottom;
     const tiltX = inside ? clamp((pointerY - (rect.top + rect.height / 2)) / rect.height * -8, -5, 5) : 0;
     const tiltY = inside ? clamp((pointerX - (rect.left + rect.width / 2)) / rect.width * 10, -6, 6) : 0;
-    phone3d.style.setProperty('--phone-y', `${clamp(offset * -72, -72, 72).toFixed(1)}px`);
+
+    // continuous idle bob/spin so the phone keeps feeling alive even
+    // when nobody is scrolling or moving the mouse
+    const t = performance.now() / 1000;
+    const idleBob = Math.sin(t * 0.9) * 12;
+    const idleSpin = Math.sin(t * 0.5) * 7;
+
+    phone3d.style.setProperty('--phone-y', `${clamp(offset * -72 + idleBob, -92, 92).toFixed(1)}px`);
     phone3d.style.setProperty('--phone-scale', `${(1 + Math.abs(offset) * .08).toFixed(3)}`);
-    phone3d.style.setProperty('--phone-rx', `${clamp(offset * 52 + tiltX, -56, 56).toFixed(1)}deg`);
-    phone3d.style.setProperty('--phone-ry', `${(window.scrollY * .07 + offset * -22 + tiltY).toFixed(1)}deg`);
-    phone3d.style.setProperty('--phone-rz', `${clamp(offset * 13, -13, 13).toFixed(1)}deg`);
+    phone3d.style.setProperty('--phone-rx', `${clamp(offset * 52 + tiltX + idleSpin * .4, -60, 60).toFixed(1)}deg`);
+    phone3d.style.setProperty('--phone-ry', `${(window.scrollY * .12 + offset * -22 + tiltY).toFixed(1)}deg`);
+    phone3d.style.setProperty('--phone-rz', `${clamp(offset * 13 + idleSpin * .3, -17, 17).toFixed(1)}deg`);
   }
   function schedulePhone3D(x = -1, y = -1){
     if (phoneFramePending) return;
     phoneFramePending = true;
     requestAnimationFrame(() => { phoneFramePending = false; updatePhone3D(x, y); });
   }
-  document.addEventListener('scroll', () => schedulePhone3D(), { passive: true });
+  document.addEventListener('scroll', () => schedulePhone3D(lastPointerX, lastPointerY), { passive: true });
   document.addEventListener('pointermove', event => schedulePhone3D(event.clientX, event.clientY), { passive: true });
-  schedulePhone3D();
+
+  if (!reduceMotion.matches){
+    (function idlePhoneLoop(){
+      schedulePhone3D(lastPointerX, lastPointerY);
+      requestAnimationFrame(idlePhoneLoop);
+    })();
+  } else {
+    schedulePhone3D();
+  }
 
   /* ---------- Back to top ---------- */
   document.getElementById('toTop')?.addEventListener('click', () => {
