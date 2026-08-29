@@ -115,20 +115,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const rect = heroVisual.getBoundingClientRect();
     const offset = clamp((rect.top + rect.height / 2 - window.innerHeight / 2) / (window.innerHeight * .72), -1, 1);
     const inside = pointerX >= rect.left && pointerX <= rect.right && pointerY >= rect.top && pointerY <= rect.bottom;
-    const tiltX = inside ? clamp((pointerY - (rect.top + rect.height / 2)) / rect.height * -8, -5, 5) : 0;
-    const tiltY = inside ? clamp((pointerX - (rect.left + rect.width / 2)) / rect.width * 10, -6, 6) : 0;
+    const tiltX = inside ? clamp((pointerY - (rect.top + rect.height / 2)) / rect.height * -5, -4, 4) : 0;
+    const tiltY = inside ? clamp((pointerX - (rect.left + rect.width / 2)) / rect.width * 6, -5, 5) : 0;
 
-    // continuous idle bob/spin so the phone keeps feeling alive even
-    // when nobody is scrolling or moving the mouse
+    // a slow, gentle bob is all the idle motion needs — no more
+    // constant spinning, and rotation no longer tracks scroll position
     const t = performance.now() / 1000;
-    const idleBob = Math.sin(t * 0.9) * 12;
-    const idleSpin = Math.sin(t * 0.5) * 7;
+    const idleBob = Math.sin(t * 0.6) * 7;
 
-    phone3d.style.setProperty('--phone-y', `${clamp(offset * -72 + idleBob, -92, 92).toFixed(1)}px`);
-    phone3d.style.setProperty('--phone-scale', `${(1 + Math.abs(offset) * .08).toFixed(3)}`);
-    phone3d.style.setProperty('--phone-rx', `${clamp(offset * 52 + tiltX + idleSpin * .4, -60, 60).toFixed(1)}deg`);
-    phone3d.style.setProperty('--phone-ry', `${(window.scrollY * .12 + offset * -22 + tiltY).toFixed(1)}deg`);
-    phone3d.style.setProperty('--phone-rz', `${clamp(offset * 13 + idleSpin * .3, -17, 17).toFixed(1)}deg`);
+    phone3d.style.setProperty('--phone-y', `${clamp(offset * -36 + idleBob, -55, 55).toFixed(1)}px`);
+    phone3d.style.setProperty('--phone-scale', `${(1 + Math.abs(offset) * .04).toFixed(3)}`);
+    phone3d.style.setProperty('--phone-rx', `${tiltX.toFixed(1)}deg`);
+    phone3d.style.setProperty('--phone-ry', `${clamp(-6 + tiltY, -11, 1).toFixed(1)}deg`);
+    phone3d.style.setProperty('--phone-rz', `0deg`);
   }
   function schedulePhone3D(x = -1, y = -1){
     if (phoneFramePending) return;
@@ -138,7 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('scroll', () => schedulePhone3D(lastPointerX, lastPointerY), { passive: true });
   document.addEventListener('pointermove', event => schedulePhone3D(event.clientX, event.clientY), { passive: true });
 
-  if (!reduceMotion.matches){
+  const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  if (!reduceMotion.matches && !isTouchDevice){
     (function idlePhoneLoop(){
       schedulePhone3D(lastPointerX, lastPointerY);
       requestAnimationFrame(idlePhoneLoop);
