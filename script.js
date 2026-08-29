@@ -138,8 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('scroll', () => schedulePhone3D(lastPointerX, lastPointerY), { passive: true });
   document.addEventListener('pointermove', event => schedulePhone3D(event.clientX, event.clientY), { passive: true });
 
-  const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-  if (!reduceMotion.matches && !isTouchDevice){
+  if (!reduceMotion.matches){
     (function idlePhoneLoop(){
       schedulePhone3D(lastPointerX, lastPointerY);
       requestAnimationFrame(idlePhoneLoop);
