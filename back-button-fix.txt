@@ -1,0 +1,11 @@
+في التلاتة ملفات project1.html / project2.html / project3.html
+دوّر على السطر ده:
+
+<a href="index(12).html" class="project-back"><i class="fas fa-arrow-left"></i> Back to portfolio</a>
+
+واستبدله بـ:
+
+<a href="index.html" class="project-back"><i class="fas fa-arrow-left"></i> Back to portfolio</a>
+
+(لو عايز يرجعك لقسم المشاريع بالظبط بدل أول الصفحة، استخدم:
+<a href="index.html#portfolio" class="project-back"><i class="fas fa-arrow-left"></i> Back to portfolio</a>)
