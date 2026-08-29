@@ -123,7 +123,8 @@ button { border: 0; color: inherit; background: none; cursor: pointer; font: inh
 .nav-link:hover, .nav-link.active { color: var(--amber); }
 .topbar-actions { display: flex; align-items: center; gap: 8px; }
 .translate-toggle, .theme-toggle { display: grid; place-items: center; min-width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); transition: color .25s, border-color .25s, background .25s; }
-.translate-toggle { display: flex; gap: 6px; padding: 0 10px; font-size: .75rem; }
+.translate-toggle { gap: 6px; padding: 0; font-size: .75rem; }
+.translate-toggle span { display: none; }
 .translate-toggle:hover, .theme-toggle:hover { border-color: var(--amber); color: var(--amber); background: rgba(243, 180, 94, .1); }
 .translate-widget { position: absolute; top: 60px; right: var(--space-section-x); display: none; padding: 9px; border: 1px solid var(--line); border-radius: 9px; background: var(--glass-strong); box-shadow: var(--shadow); backdrop-filter: blur(20px); }
 .translate-widget.open { display: block; }
@@ -219,11 +220,12 @@ body { top: 0 !important; }
   .navbar { position: static; display: flex; flex-direction: row; gap: 22px; padding: 0; border: 0; background: none; transform: none; opacity: 1; }
   .nav-link { justify-content: flex-start; gap: 5px; padding: 0; border: 0; }
   .nav-link span { font-size: .82rem; }.menu-toggle { display: none; }.translate-widget { right: var(--space-section-x); }
+  .translate-toggle { display: flex; min-width: auto; padding: 0 12px; }.translate-toggle span { display: inline; }
   .hero { padding: 72px var(--space-section-x) 90px; }.hero-grid { grid-template-columns: 1fr 1fr; align-items: center; gap: 5vw; }.hero-visual { min-height: 520px; }.phone-flight { height: 530px; }.portrait-card { width: 230px; height: 390px; }.phone-frame { width: 180px; height: 370px; }.about-grid { grid-template-columns: 1.1fr .9fr; align-items: center; }.skills-grid { grid-template-columns: 1fr 1fr; }.projects-grid { grid-template-columns: repeat(3, 1fr); }.services-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 1050px) {.topbar { padding-top: 16px; padding-bottom: 16px; }.navbar { gap: 30px; }.hero-sub { font-size: 1.05rem; }.hero-visual { gap: 18px; }.portrait-card { width: 270px; height: 420px; }.phone-frame { width: 210px; height: 430px; }.services-grid { grid-template-columns: repeat(4, 1fr); }.service-card { padding: 28px 22px; }}
 @media (max-width: 850px) { .hero-visual { flex-direction: column; }.phone-flight { width: min(100%, 390px); flex: 0 0 auto; } }
-@media (max-width: 380px) {.hero-visual { gap: 7px; }.portrait-card { width: 54vw; height: 290px; }.phone-frame { width: 40vw; height: 315px; }.phone-flight { height: 360px; }.translate-toggle { width: 40px; padding: 0; }.translate-toggle span { display: none; }.hero-actions .btn { width: 100%; }.meter-list li { grid-template-columns: 86px 1fr 35px; }}
+@media (max-width: 380px) {.hero-visual { gap: 7px; }.portrait-card { width: 54vw; height: 290px; }.phone-frame { width: 40vw; height: 315px; }.phone-flight { height: 360px; }.hero-actions .btn { width: 100%; }.meter-list li { grid-template-columns: 86px 1fr 35px; }}
 /* Short/landscape PHONES specifically: the hero was overflowing
    viewport height there, hiding the scroll cue — trim it down.
    The extra (pointer: coarse) check keeps this from ever firing on
