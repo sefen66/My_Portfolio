@@ -176,7 +176,7 @@ body { top: 0 !important; }
 .portrait-card { position: relative; z-index: 1; width: calc(58vw - 10px); max-width: 230px; height: 320px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .28); border-radius: 22px; background: var(--glass); transform: rotate(-2deg); animation: portraitFloat 7s ease-in-out infinite; isolation: isolate; }
 .portrait-card::before { content: ''; position: absolute; z-index: 2; top: -35%; left: -70%; width: 45%; height: 170%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .3), transparent); transform: rotate(18deg); animation: shine 7s 1s ease-in-out infinite; }
 .portrait-card::after, .phone-frame::after { content: ''; position: absolute; z-index: 4; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(130deg, rgba(255, 255, 255, .18), transparent 32%, transparent 70%, rgba(123, 201, 183, .1)); mix-blend-mode: screen; }
-.portrait-image { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; filter: saturate(.78) contrast(1.1) brightness(.92); transform: scale(1.04); }
+.portrait-image { width: 100%; height: 100%; object-fit: cover; object-position: center 62%;  }
 .portrait-card:hover { animation-play-state: paused; transform: rotate(0) translateY(-8px); }
 .portrait-shade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 32%, rgba(15, 23, 21, .92)); }
 .portrait-caption { position: absolute; right: 16px; bottom: 16px; left: 16px; z-index: 3; display: grid; gap: 3px; }
